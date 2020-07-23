@@ -1,0 +1,47 @@
+/**
+ * @param {number[]} digits
+ * @return {string}
+ */
+var largestMultipleOfThree = function(digits) {
+    let count = new Array(10).fill(0)
+    let sum = 0
+    let ans = ''
+    for(let i of digits) {
+        count[i]++
+        sum += i
+    }
+    
+    let del = (m) =>{
+        while(m<=9){
+            if(count[m]){
+                count[m]--
+                return 1
+            }
+            m+=3
+        }
+        return 0;
+    }
+
+   if(sum%3 == 1) {
+        if(!del(1)){
+            del(2)&&
+            del(2)
+        }
+    } else if(sum%3 == 2){
+        if(!del(2)){
+            del(1)&&
+            del(1)
+        }
+    }
+    
+    for(let i=9; i>=0; i--){
+        while(count[i]--){
+            ans += i
+        }
+    }
+    if(ans[0]==0) return '0'
+    if(ans=='') return ''
+    return ans
+};
+//runtime:84 ms
+//memory:38 MB
