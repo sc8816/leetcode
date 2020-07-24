@@ -1,0 +1,35 @@
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {string} S
+ * @return {TreeNode}
+ */
+var recoverFromPreorder = function(S) {
+    let i= 0
+    let build = (s, dep) => {
+        if(s=='') return null
+        let begin = i
+        let end = i
+        let cur = null
+        while(s[begin]=='-') begin++
+        end = begin
+        while(end<s.length && !isNaN(s[end])) end++
+
+        if(begin-i==dep){
+            cur = new TreeNode(s.substring(begin, end)-'0')
+            i = end
+            cur.left = build(s, dep+1)
+            cur.right = build(s, dep+1)
+        }
+        return cur
+    }
+
+    return build(S, 0)
+};
+//runtime:112 ms
+//memory:40.3 MB
