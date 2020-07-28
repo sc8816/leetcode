@@ -57,6 +57,7 @@ var subarrayBitwiseORs = function(A) {
         set.add(A[i])
         for (let j = i-1; j >= 0; j--) {
             if((A[j] | A[i]) == A[j]) continue;
+            //存储的是从该元素到当前遍历元素i的前一个之间的按位或和
             A[j] |= A[i]
             set.add(A[j])
         }

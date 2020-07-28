@@ -72,6 +72,7 @@ var superEggDrop = function(K, N) {
             }
         }
     }
+    return dp[N][K]
     // for (let i = 2; i <= N; i++) {
     //     for (let j = 2; j <= K; j++) {
     //         let start = 1, end = i, mid
