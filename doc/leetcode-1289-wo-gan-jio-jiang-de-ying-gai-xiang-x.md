@@ -1,0 +1,169 @@
+这道题的简单意思是，第 i 行选择了 第 j 个元素，那么第 i - 1 行就不能选择第 j 个元素，即相邻行不能选同一列的元素
+如果是相邻行则可以选择同一列的元素，即 第 i 和 第 i - 2 行 可以选择第 j 个元素
+求取按这种情况下的路径最小值
+
+# 方法一：递归（超时）
+使用一个变量  preJ 记录上一层选的是什么位置，当前层选 对 上一层选的位置 preJ 外 的其他元素各 dfs 一遍
+到达底部，即 i == arr.length，记录最小值
+
+```java
+class Solution {
+    public int minFallingPathSum(int[][] arr) {
+        /*
+        [1,2,3]
+        [4,5,6]
+        [7,8,9]
+        dfs || dp
+        */
+        dfs(arr, 0, 0, -1);
+        return minVal;
+    }
+    int minVal = 100000000;
+    private void dfs(int[][] arr, int sum, int i, int preJ){
+        if(i == arr.length){
+            minVal = Math.min(minVal, sum);
+            return;
+        }
+        for(int k = 0; k < arr[i].length; k++){
+            if(k == preJ){
+                continue;
+            }
+            dfs(arr, sum + arr[i][k], i + 1, k);
+        }
+    }
+}
+```
+
+# 方法一：dp
+dp[i][j] 表示经过 (i, j) 点的最短路径和
+如果第 i 行经过了 第 j 列，即选择 (i, j) 这个点，那么意味着 第 i - 1 行就不能经过 第 j 列，即不能选择 (i - 1, j) 这个点
+那么我们需要从 i - 1 行的除 经过 j 列外， 即除 (i - 1, j) 的其他路径中找到最短的路径，然后接着这条路径走到 第 i 行的 第 j 列
+那么状态转移方程为 ：
+```java
+dp[i][j] = Integer.MAX_VALUE;
+for(int k = 0; k < llen; k++){
+    if(k == j){
+        continue;
+    }
+    //从第 i - 1 行中除 j 外找出最短路径
+    dp[i][j] = Math.min(dp[i][j], dp[i - 1][k] + arr[i][j]);
+}
+```
+
+但这么做存在一个问题：时间复杂度太高，存在三层循环，达到 O(n^3)
+```java
+for(int i = 0; i < rlen; i++){
+    for(int j = 0; j < llen; j++){
+        for(int k = 0; k < llen; k++){
+            if(k == j){
+                continue;
+            }
+            //。。。
+        }
+    }
+}
+```
+
+最内层循环是对于每个 j ，都去找除 j 外其他元素的最小值，每一个 j 都找一遍
+但是对于基本所有的位置来说，都是存在一个共同的最小值
+比如
+```java
+[6,5,4,1,2,3]
+       ↑ 
+       i
+```
+我们可以看出，在 [0, len) 中，只存在一个最小值 arr[i]，除 i 外，其他位置的最小值都是 arr[i]
+而对 i 位置来说，它的最小值就是 [6,5,4,2,3] 中的最小值，即除自身外其他元素的最小值
+因此，我们可以提前预处理，定义一个 getMin() 函数来获取每个位置的最小值，返回一个一维数组 minI，minI[j] 表示除位置 j 外其他元素的最小值
+
+**注意：**
+我们是根据上一行 dp[i - 1] 结果来获取最小值的，而不是根据 arr[i - 1] 来获取最小值的
+因为 我们要的是到达上一行某个点的最短路径，再来经过当前行的某个点
+
+
+### 空间压缩
+我们可以看出，我们只需要 第 i 行 和 第 i - 1 行的数据，其他行的数据我们并不需要，因此，我们可以直接省去 行的维度，压缩成一维数组
+当压缩成一维数组后，我们需要注意的是，我们使用 getMax() 函数返回的必须是 最小值，而不是最小值对应的索引
+因为我们 getMin() 最先进行的，而我们压缩了行维度，如果我们返回的是索引，那么我们更新了 dp 后，索引对应的值也就发生了改变
+```java
+for(int i = 1; i < rlen; i++){
+    //maxI[k] 表示上一层除 k 位置外的其他元素中的最大值
+    int[] minI = getMin(dp);
+    for(int j = 0; j < llen; j++){
+        dp[j] = minI[j] + arr[i][j];
+    }
+}
+```
+
+### 主函数
+```java
+    public int minFallingPathSum(int[][] arr) {
+        /*
+        [1,2,3]
+        [4,5,6]
+        [7,8,9]
+        dfs || dp
+        dfs：超时
+        dp
+        */
+        int rlen = arr.length;
+        int llen = arr[0].length;
+        int[] dp = new int[llen];
+
+        //预处理第一行，这里可以直接使用 System.arraycopy()
+        for(int i = 0; i < rlen; i++){
+            dp[i] = arr[0][i];
+        }
+
+        for(int i = 1; i < rlen; i++){
+            //maxI[k] 表示上一层除 k 位置外的其他元素中的最大值
+            int[] minI = getMin(dp);
+            for(int j = 0; j < llen; j++){
+                dp[j] = minI[j] + arr[i][j];
+            }
+        }
+        int minVal = 100000000;
+        for(int num : dp){
+            minVal = Math.min(minVal, num);
+        }
+        return minVal;
+    }
+```
+
+
+### getMin() 函数
+```java
+    //获取某一行对于每个位置来说，除它之外的其他元素的最小值
+    private int[] getMin(int[] arr){
+        int len = arr.length;
+
+        //最小值
+        int minIdx = -1;
+        //第二小值
+        int preIdx = -1;
+
+        int[] minI = new int[len];
+
+        //首先获取最小值
+        for(int i = 0; i < len; i++){
+            if(minIdx == -1 || arr[minIdx] > arr[i]){
+                minIdx = i;
+            }
+        }
+        //然后获取最小值位置 对应的 除它外的最小值
+        for(int i = 0; i < len; i++){
+            if(minIdx != i && (preIdx == -1 || arr[preIdx] > arr[i])){
+                preIdx = i;
+            }
+        }
+        for(int i = 0; i < len; i++){
+            if(minIdx != i){
+                minI[i] = arr[minIdx];
+            }else{
+                minI[i] = arr[preIdx];
+            }
+        }
+        return minI;
+    }
+```
+ [image.png](https://pic.leetcode-cn.com/34226a7873af3c05fcd01bbcd27036e1cce1a1c2f422a56d8df49779688feb68-image.png)
