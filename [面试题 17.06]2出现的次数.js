@@ -21,16 +21,22 @@
  */
 var numberOf2sInRange = function(n) {
     let ans = 0
-    for(let i=0; i<=n; i++){
-        let remain = i
-        while (remain){
-            if(remain % 10 == 2) ans++
-            remain = Math.floor(remain/10)
+    let m = String(n).split('').reverse().join('')
+
+    for (let i = 1; i <= m.length; i++) {
+        //
+        let a = Math.floor(n / 10 ** i)
+        //前面存在a个 10的i-1次方个
+        ans += a * (10 ** (i - 1))
+        let digit = m[i - 1] - '0'
+        if (digit > 2) {
+            ans += 10 ** (i - 1)
+        }
+        if (digit == 2) {
+            ans += n % (10 ** (i - 1)) + 1
         }
     }
 
     return ans
-};
-
-console.log(numberOf2sInRange(559366752))
+}
 //leetcode submit region end(Prohibit modification and deletion)

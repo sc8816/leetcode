@@ -1,0 +1,28 @@
+/**
+ * @param {string} s
+ * @return {string}
+ */
+var longestPalindrome = function(s) {
+    if (s.length==0 || s.length==1) return s
+    let max = 1, len = s.length, 
+        dp = Array.from(new Array(len), () => new Array(len)),
+        start = 0
+    //    
+    for(let i=0;i<len;i++){
+        for(let j=0;j<=i;j++){
+            if(i-j < 2){
+                dp[j][i] = s[i]==s[j]
+            }else{
+                dp[j][i] = (s[i]==s[j])&&dp[j+1][i-1]
+            }
+            if(dp[j][i] && (i-j+1>max)){
+                max =  i-j+1 
+                start = j 
+            }
+        }
+    }
+
+    return s.substr(start,max)
+};
+//runtime:320 ms
+//memory:80.3 MB
