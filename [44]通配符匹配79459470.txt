@@ -1,0 +1,31 @@
+/**
+ * @param {string} s
+ * @param {string} p
+ * @return {boolean}
+ */
+var isMatch = function(s, p) {
+    let dp = Array.from(new Array(s.length+1), ()=> new Array(p.length+1).fill(false))
+    dp[0][0] = true
+    for(let i=1; i<=p.length; i++){
+        if(p[i-1]=='*'){
+            dp[0][i] = true
+        }else{
+            break
+        }
+    }
+    for(let i=1; i<=s.length; i++){
+        for(let j=1; j<=p.length; j++){
+            if(p[j-1]=='*'){
+                dp[i][j] = dp[i][j-1] || dp[i-1][j]
+            }else if(p[j-1]=='?' || p[j-1]==s[i-1]){
+                dp[i][j] = dp[i-1][j-1]
+            }else{
+                dp[i][j] = false
+            }
+        }
+    }
+
+    return dp[s.length][p.length]
+};
+//runtime:184 ms
+//memory:51 MB
