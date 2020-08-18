@@ -1,0 +1,16 @@
+/**
+ * @param {number[][]} triangle
+ * @return {number}
+ */
+var minimumTotal = function(triangle) {
+    //dp[i][j] = max(dp[i+1][j+1], dp[i+1][j])+triangle[i][j]
+    let dp = Array.from(new Array(triangle.length+1), ()=>new Array(triangle.length+1).fill(0))
+    for(let i=triangle.length-1; i>=0; i--){
+        for(let j=0; j<=triangle[i].length; j++){
+            dp[i][j] = Math.min(dp[i+1][j+1], dp[i+1][j])+triangle[i][j]
+        }
+    }
+    return dp[0][0]
+};
+//runtime:68 ms
+//memory:36.7 MB

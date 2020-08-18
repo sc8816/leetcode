@@ -53,6 +53,10 @@
  * @return {number}
  */
 var numDistinct = function (s, t) {
+    //dp[i][j]表示s前i个元素组成t前j个元素的个数
+    //s[i-1]==t[j-1] 我们可以选取该字符 dp[i-1][j-1]
+    //不选取该元素 dp[i-1][j]
+    //不相等的情况下我们要从前i-1个元素中选取t【j】
     let m = s.length
     let n = t.length
     let dp = Array.from(new Array(m + 1), () => new Array(n + 1).fill(0))

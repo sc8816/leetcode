@@ -31,11 +31,13 @@ var maximalRectangle = function(matrix) {
             if (matrix[i][j] == 1) {
                 if (j == 0) w[i][j] = 1
                 else w[i][j] = w[i][j - 1] + 1
-            } else w[i][j] = 0
-            let minW = w[i][j] //记录的是当前行连续出现1的次数
+            } else {
+                w[i][j] = 0
+            }
+            let minW = Infinity
             for (let up = i; up >= 0; up--) {
                 let h = i - up + 1
-                minW = Math.min(w[up][j], minW)//当前最小的宽度就是当前高度为h的矩形
+                minW = Math.min(minW, w[up][j])
                 res = Math.max(res, minW * h)
             }
         }

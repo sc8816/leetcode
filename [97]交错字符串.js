@@ -21,21 +21,23 @@
  * @return {boolean}
  */
 var isInterleave = function(s1, s2, s3) {
+    //dp[i][j]表示s1前i个元素和s2j个元素能不能组成s3前（i+j）个元素的交错字符串
+    //dp[i][j] = (dp[i-1][j] && s1[i] == s3[i+j-1]) || (dp[i][j-1] && s2[j] == s3[i+j-1])
     if (s1.length + s2.length !== s3.length) return false
     let m = s1.length
     let n = s2.length
     if (m == 0 || n == 0) return s1 == s3 || s2 == s3
     let dp = Array.from(new Array(m + 1), () => new Array(n + 1).fill(0))
     dp[0][0] = 1
-    
+
     for (let i = 0; i <= m; i++) {
         for (let j = 0; j <= n; j++) {
             if (i == 0) {
-                if (dp[0][j - 1] == 1 && s2[j - 1] == s3[j - 1]) {
+                if (dp[0][j - 1] && s2[j - 1] == s3[j - 1]) {
                     dp[0][j] = 1
                 }
             } else if (j == 0) {
-                if (dp[i - 1][0] == 1 && s1[i - 1] == s3[i - 1]) {
+                if (dp[i - 1][0] && s1[i - 1] == s3[i - 1]) {
                     dp[i][0] = 1
                 }
             } else {

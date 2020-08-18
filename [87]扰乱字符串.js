@@ -76,10 +76,10 @@ var isScramble = function(s1, s2) {
         }
     }
 
-    for (let k = 2; k <= m; k++) {
+    for (let k = 2; k <= m; k++) { //整体的长度
         for (let i = 0; i < m-k+1; i++) {
             for (let j = 0; j < m-k+1; j++) {
-                for (let l = 1; l < k; l++) {
+                for (let l = 1; l < k; l++) { //我们切割的长度
                     if (dp[i][j][l] && dp[i + l][j + l][k - l]) {
                         dp[i][j][k] = true
                         break

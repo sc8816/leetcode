@@ -17,6 +17,13 @@
  * @return {number}
  */
 var minCut = function(s) {
+    // dp[i]表示切割到下标为i的字符最少需要切割次数
+    //dp[i] = if(s[0-i]是回文){
+    //   dp[i] = 0
+    // }
+    // else {
+    // Math.min(dp[i], dp[j]+1) && j<i && s[0-j]是回文
+    // }
     let checkPalindrome = (str, start, end) => {
         while (start < end) {
             if (str[start] !== s[end]) return false
