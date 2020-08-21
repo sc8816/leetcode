@@ -66,7 +66,7 @@
 //     return false
 // }
 var canCross = function(stones) {
-    //dp[i][j]表示能否从j跳到i
+    //dp[i][j]表示能否从下标j跳到下标i
     let N = stones.length
     if (stones[1] != 1) return false
     let map = new Map()

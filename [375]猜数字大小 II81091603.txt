@@ -1,0 +1,24 @@
+/**
+ * @param {number} n
+ * @return {number}
+ */
+var getMoneyAmount = function(n) {
+    let dp = Array.from(new Array(n+2), ()=>new Array(n+2).fill(0))
+    
+    for(let i=1; i<n; i++){
+        for(let j=i+1; j<=n; j++){
+            if(i==j) dp[i][j] = 0
+            else dp[i][j] = Infinity
+            for(let k=i; k<=j; k++){
+                dp[i][j] = Math.min(dp[i][j], Math.max(dp[i][k-1], dp[k+1][j])+k)
+            }
+        }
+    }
+
+    return dp[1][n]
+};
+//total_testcases:13
+//total_correct:2
+//input_formatted:3
+//expected_output:2
+//code_output:1

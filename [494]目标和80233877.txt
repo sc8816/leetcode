@@ -1,0 +1,30 @@
+/**
+ * @param {number[]} nums
+ * @param {number} S
+ * @return {number}
+ */
+var findTargetSumWays = function(nums, S) {
+    let n = nums.length
+    let sum = nums.reduce((a, b)=>a+b)
+    if(S>sum) return 0
+    let dp = Array.from(new Array(n+1), ()=> new Array(2*sum+1).fill(0))
+    //数组下标不能小于0 只能从0取值到2*sum
+    //所以初始化数据应该是sum
+    if(nums[0]==0) dp[0][sum] = 2
+    else{
+        dp[0][sum-nums[0]] = 1
+        dp[0][sum+nums[0]] = 1
+    }
+
+
+    for(let i=1; i<n; i++){
+        for(let j=0; j<=2*sum; j++){ 
+            let l = (j - nums[i]) >= 0 ? j - nums[i] : 0;
+            let r = (j + nums[i]) < (sum*2+1) ? j + nums[i] : 0;
+            dp[i][j] = dp[i-1][l] + dp[i-1][r]; 
+        }
+    }
+    return dp[n-1][sum+S]
+};
+//runtime:108 ms
+//memory:42.2 MB

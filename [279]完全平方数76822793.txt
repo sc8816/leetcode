@@ -1,0 +1,35 @@
+/**
+ * @param {number} n
+ * @return {number}
+ */
+var numSquares = function(n) {
+    let dp = new Array(n+1).fill(0)
+    for(let i=1; i<=n; i++){
+        dp[i] = Infinity
+        for(let j = 1; j*j<=i; j++){
+            dp[i] = Math.min(dp[i], dp[i-j*j]+1)
+        }
+    }
+    return dp[n]
+    /* 
+    *dp[i] = min(dp[j],dp[i-j*j]+1)
+    */
+    // let quenue = [[n, 0]]
+    // let visit = new Array(n+1).fill(false)
+    // visit[n] = true
+    // while(quenue.length){
+    //     let [num, step] = quenue.shift()
+    //     for(let i =1; num-i*i>=0; i++){
+    //         let a = num-i*i
+    //         if(a==0) return step+1
+    //         if(a<0) break
+    //         if(!visit[a]){
+    //             quenue.push([a, step+1])
+    //             visit[a] = true
+    //         }
+    //     }
+    // }
+    // return 0
+};
+//runtime:232 ms
+//memory:37.9 MB

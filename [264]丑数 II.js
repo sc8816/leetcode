@@ -22,16 +22,19 @@
  * @param {number} n
  * @return {number}
  */
-var nthUglyNumber = function(n) {
-    let p1 =0,p2=0, p3=0;
+var nthUglyNumber = function (n) {
+    //dp[i] = min(2 * dp[l_2], 3 * dp[l_3], 5 * dp[l_5])
+    //dp[i]表示第i个丑数，我们只需要记录下每一个数需要乘的数的索引，越后面值越大，所有通过比较判断哪一个数加入
+    let p1 = 0, p2 = 0, p3 = 0;
+
     let res = [1]
-    while (n>1){
-      let temp = Math.min(res[p1]*2, res[p2]*3, res[p3]*5)
-      res.push(temp)
-      if(temp===res[p1]*2) p1++
-      if(temp===res[p2]*3) p2++
-      if(temp===res[p3]*5) p3++
-      n--
+    while (n > 1) {
+        let temp = Math.min(res[p1] * 2, res[p2] * 3, res[p3] * 5)
+        res.push(temp)
+        if (temp === res[p1] * 2) p1++
+        if (temp === res[p2] * 3) p2++
+        if (temp === res[p3] * 5) p3++
+        n--
     }
     return res.pop()
 };

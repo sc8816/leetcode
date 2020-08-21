@@ -34,7 +34,6 @@ var minCut = function(s) {
     }
     let m = s.length
     if (m == 0 || m == 1) return 0
-    let res = m
     let dp = new Array(m)
     for (let i = 0; i < m; i++) dp[i] = i
 

@@ -46,6 +46,7 @@
  * @return {number}
  */
 var findSubstringInWraproundString = function(p) {
+    //dp[i]表示以ASCII码值为 i 的字母结尾的字符串数
     let isContinue = (s, s1) => {
         if (s == 'z') return s1 == 'a'
         return s1.charCodeAt() - s.charCodeAt() == 1
@@ -59,10 +60,12 @@ var findSubstringInWraproundString = function(p) {
         }else{
             k=1
         }
-        dp[p[i].charCodeAt()-'a'.charCodeAt()] = Math.max(dp[p[i].charCodeAt()-'a'.charCodeAt()], k)
+        //dp[i]取max是因为可能后面出现重复的字符串，所以取最大值（去重处理）
+        let code = p[i].charCodeAt()-'a'.charCodeAt()
+        dp[code] = Math.max(dp[code], k)
     }
-    
+
     return dp.reduce((a, b)=> a+b)
-    
+
 }
 //leetcode submit region end(Prohibit modification and deletion)

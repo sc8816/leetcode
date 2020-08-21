@@ -76,27 +76,45 @@
 //     return helper(s, wordDict, 0)
 // }
 
-var wordBreak = function(s, wordDict) {
-    let  m = s.length
+var wordBreak = function (s, wordDict) {
+    //dp[i]表示的是前i个字符能够由字典中单词组成的句子列表
+    let m = s.length
     let dp = new Array(m + 1)
     dp[0] = ['']
 
     for (let i = 1; i <= m; i++) {
+        let list = []
         for (let j = 0; j < i; j++) {
-            dp[i] = []
             let str = s.substring(j, i)
-            console.log(str)
-            if (dp[j].length>0 && wordDict.indexOf(str) !== -1) {
+            // console.log(str)
+            if (dp[j].length > 0 && wordDict.indexOf(str) !== -1) {
                 for (let l of dp[j]) {
-                    dp[i].push(l + (l == '' ? '' : ' ') + str)
+                    list.push(l + (l == '' ? '' : ' ') + str)
                 }
             }
-            console.log(dp[i])
+            dp[i] = list
+            // console.log(dp[i])
         }
     }
 
-    console.log(dp)
-    return dp[s.length]
+    // console.log(dp)
+    return dp[m]
+    // let m = s.length
+    // let dp = new Array(m + 1)
+    // dp[0] = ['']
+    // for (let i = 1; i <= m; i++) {
+    //     for (let j = 0; j < i; j++) {
+    //         dp[i] = []
+    //         let str = s.substring(j, i)
+    //         if (dp[j].length > 0 && wordDict.indexOf(str) !== -1) {
+    //             for (let w of dp[j]) {
+    //                 dp[i].push(w + (w == '' ? '' : ' ') + str)
+    //             }
+    //         }
+    //     }
+    // }
+    //
+    // return dp[m]
 }
 
 

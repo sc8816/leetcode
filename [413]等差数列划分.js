@@ -40,13 +40,16 @@
  * @return {number}
  */
 var numberOfArithmeticSlices = function(A) {
+    //dp[i]表示以元素A【i】结尾 的等差序列的个数
     let N = A.length
     if (N == 0 || N == 1) return 0
     let res = 0
     let dp = new Array(N + 1).fill(0)
     dp[0] = dp[1] = 0
     for (let i = 2; i < N; i++) {
-        dp[i] = dp[i-1] + 1
+        if(A[i] - A[i-1] == A[i-1] - A[i-2]){
+            dp[i] = dp[i-1] + 1
+        }
         res += dp[i]
     }
 

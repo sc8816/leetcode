@@ -1,0 +1,22 @@
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var maxProduct = function(nums) {
+    if(nums.length==0) return 0
+    let max = -Infinity
+    let imax = 1
+    let imin = 1
+    for(let i=0; i<nums.length; i++){
+        if(nums[i]<0){
+            [imin, imax] = [imax, imin]
+        }
+        imin = Math.min(nums[i], imin*nums[i])
+        imax = Math.max(nums[i], imax*nums[i])
+        max = Math.max(max, imax)
+    }
+
+    return max
+};
+//runtime:88 ms
+//memory:37.2 MB

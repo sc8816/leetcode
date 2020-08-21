@@ -1,0 +1,29 @@
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number}
+ */
+var rob = function(root) {
+    if(root==null) return 0
+    let map = new Map()
+    let helper = (root) => {
+
+        if(root==null) return 0
+        if(map.has(root)) return map.get(root)
+        let m = root.val
+        if(root.left) m += helper(root.left.left)+helper(root.left.right)
+        if(root.right) m += helper(root.right.left)+helper(root.right.right)
+
+        return Math.max(m, helper(root.left)+helper(root.right))
+    }
+
+    return helper(root)
+};
+//runtime:4044 ms
+//memory:39.8 MB

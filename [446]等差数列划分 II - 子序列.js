@@ -55,21 +55,7 @@
  * @return {number}
  */
 var numberOfArithmeticSlices = function(A) {
-    //不使用二维数组，公差可能存在溢出，和小数的情况
-    let res = 0
-    let dp = Array.from(new Array(A.length), ()=>new Array(100000000001))
-    for (let i = 0; i < A.length; i++) {
-        for (let j = 0; j < i; j++) {
-            let dif = A[i] - A[j]
-            dp[i][dif] += (dp[j][dif] + 1)
-            res += dp[j][dif]
-        }
-    }
-
-    return res
-}
-var numberOfArithmeticSlices = function(A) {
-    //不使用二维数组，公差可能存在溢出，和小数的情况
+    //不使用二维数组，公差可能存在溢出(负数)，和小数的情况
     let res = 0
     let dp = new Array()
     for (let i = 0; i < A.length; i++) {

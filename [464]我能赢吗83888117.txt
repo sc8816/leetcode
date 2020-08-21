@@ -1,0 +1,33 @@
+/**
+ * @param {number} maxChoosableInteger
+ * @param {number} desiredTotal
+ * @return {boolean}
+ */
+var canIWin = function(maxChoosableInteger, desiredTotal) {
+    if(maxChoosableInteger>=desiredTotal) return true
+    if (maxChoosableInteger * (maxChoosableInteger + 1) / 2 < desiredTotal) {
+        return false;
+    }
+    let state = new Array(maxChoosableInteger+1).fill(0)
+    let dfs = (state, total, map) => {
+        if(total<=0) return true
+        let key = state.toString()
+        if(map.get(key)) return map.get(key)
+        for(let i=1; i<state.length; i++){
+            if(state[i]==0){
+                state[i] = 1
+                if(total-i<=0 || !dfs(state, total-i, map)){
+                    map.set(key, true)
+                    state[i] = 0
+                    return true
+                }
+                state[i] = 0
+            }
+        }
+        map.set(key, false);
+        return false;
+    }
+    return dfs(state, desiredTotal, new Map())
+};
+//runtime:1424 ms
+//memory:62.5 MB

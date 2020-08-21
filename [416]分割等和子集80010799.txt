@@ -1,0 +1,25 @@
+/**
+ * @param {number[]} nums
+ * @return {boolean}
+ */
+var canPartition = function(nums) {
+    if(nums.length<=1) return false
+    let sum = nums.reduce((a, b)=> a+b)
+    if(sum%2!=0) return false
+    sum = sum>>1
+    let dp = new Array(sum+1).fill(false)
+
+    dp[0]=true
+
+    for(let i=0; i<nums.length; i++){
+        for(let j=sum; j>=0; j--){
+            if(j>=nums[i]){
+                dp[j] = dp[j]||dp[j-nums[i]]
+            }
+        }
+    }
+
+    return dp[sum]
+};
+//runtime:100 ms
+//memory:37 MB

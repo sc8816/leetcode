@@ -36,16 +36,16 @@
  * @param {number} target
  * @return {number}
  */
-var combinationSum4 = function(nums, target) {
-  let n = nums.length
-  let dp = new Array(target + 1).fill(0)
-  dp[0] = 1
-  for (let j = 1; j <= target; j++) {
-    for (let i = 0; i < n; i++) {
-      if (j - nums[i] >= 0) dp[j] += dp[j - nums[i]]
+var combinationSum4 = function (nums, target) {
+    let n = nums.length
+    let dp = new Array(target + 1).fill(0)
+    dp[0] = 1
+    
+    for (let i = 1; i <= target; i++) {
+        for (let num of nums) {
+          if(i-num>=0) dp[i] += dp[i-num]
+        }
     }
-  }
-
-  return dp[target]
+    return dp[target]
 }
 //leetcode submit region end(Prohibit modification and deletion)

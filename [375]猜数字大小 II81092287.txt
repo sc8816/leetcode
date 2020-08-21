@@ -1,0 +1,23 @@
+/**
+ * @param {number} n
+ * @return {number}
+ */
+var getMoneyAmount = function(n) {
+    let dp = Array.from(new Array(n+2), ()=>new Array(n+2).fill(0))
+    
+    for(let i=n-1; i>=1; i--){
+        for(let j=i; j<=n; j++){
+            if(i==j) dp[i][j] = 0
+            else{
+                dp[i][j] = Infinity
+                for(let k=i; k<=j; k++){
+                    dp[i][j] = Math.min(dp[i][j], Math.max(dp[i][k-1], dp[k+1][j])+k)
+                }
+            } 
+        }
+    }
+
+    return dp[1][n]
+};
+//runtime:100 ms
+//memory:36.6 MB

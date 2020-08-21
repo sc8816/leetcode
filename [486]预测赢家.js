@@ -38,35 +38,37 @@
  * @param {number[]} nums
  * @return {boolean}
  */
-var PredictTheWinner = function(nums) {
-  let n = nums.length
-  let dp = new Array(n)
-  for (let i = 0; i <= n; i++) {
-    dp[i] = new Array()
-    for (let j = 0; j <= n; j++) {
-      dp[i][j] = new Array()
-      for (let k = 0; k <= 1; k++) {
-         dp[i][j][k] = 0
-      }
-    }
-  }
-  for (let i = n - 2; i >= 0; i--) {
-    dp[i][i][0] = nums[i]
-    for (let j = i + 1; j < n; j++) {
-      for (let k = 0; k < 2; k++) {
-        let left = nums[i] + dp[i + 1][j][1]
-        let right = nums[j] + dp[i][j - 1][1]
-        if(left>right){
-          dp[i][j][0] = left
-          dp[i][j][1] = dp[i+1][j][0]
-        }else{
-          dp[i][j][0] = right
-          dp[i][j][1] = dp[i][j-1][0]
+var PredictTheWinner = function (nums) {
+    //定义dp[i][j][0]表示区间i-j 玩家1先选获得的分数
+    //dp[i][j][1]表示区间i-j 玩家2先选获得的分数
+    let n = nums.length
+    let dp = new Array(n)
+    for (let i = 0; i <= n; i++) {
+        dp[i] = new Array()
+        for (let j = 0; j <= n; j++) {
+            dp[i][j] = new Array()
+            for (let k = 0; k <= 1; k++) {
+                dp[i][j][k] = 0
+            }
         }
-      }
     }
-  }
-  
-  return dp[0][n - 1][0] >= dp[0][n - 1][1]
+    for (let i = n - 2; i >= 0; i--) {
+        dp[i][i][0] = nums[i]
+        for (let j = i + 1; j < n; j++) {
+            for (let k = 0; k < 2; k++) {
+                let left = nums[i] + dp[i + 1][j][1]
+                let right = nums[j] + dp[i][j - 1][1]
+                if (left > right) {
+                    dp[i][j][0] = left
+                    dp[i][j][1] = dp[i + 1][j][0]
+                } else {
+                    dp[i][j][0] = right
+                    dp[i][j][1] = dp[i][j - 1][0]
+                }
+            }
+        }
+    }
+
+    return dp[0][n - 1][0] >= dp[0][n - 1][1]
 }
 //leetcode submit region end(Prohibit modification and deletion)

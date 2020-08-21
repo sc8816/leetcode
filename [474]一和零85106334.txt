@@ -1,0 +1,30 @@
+/**
+ * @param {string[]} strs
+ * @param {number} m
+ * @param {number} n
+ * @return {number}
+ */
+var findMaxForm = function(strs, m, n) {
+    let count = (str) =>{
+        let zero=0, one = 0 
+        for(let i=0; i<str.length; i++){
+            if(str[i]=='0') zero++
+            else one++
+        }
+        return [zero, one]
+    }
+    let dp = Array.from(new Array(m+1), ()=>new Array(n+1).fill(0))
+    //dp[i][j] = Math.max(dp[i][j], 1+dp[i-zero][j-one])
+    for(let i=0; i<strs.length; i++){
+        let [zero, one] = count(strs[i])
+        for(let x=m; x>=zero; x--){
+            for(let y=n; y>=one; y--){
+                dp[x][y] = Math.max(dp[x][y], 1+dp[x-zero][y-one])
+            }
+        }
+    }
+
+    return dp[m][n]
+};
+//runtime:148 ms
+//memory:38.5 MB

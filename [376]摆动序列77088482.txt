@@ -1,0 +1,31 @@
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var wiggleMaxLength = function(nums) {
+   if(nums.length==0) return 0
+   //二维数组
+   //dp[i][0]以元素i结尾的摆动序列，序列后两位递减的
+   //dp[i][1]表示以元素i结尾的摆动序列，序列后两位单调递增
+   let len = nums.length
+   if(nums == null || nums.length < 2) {
+		return nums == null ? 0 : nums.length;
+	}
+	let dp = Array.from(new Array(len), ()=> new Array(2).fill(0))
+    for(let i=1; i<len; i++){
+        if(nums[i]-nums[i-1]>0){
+            dp[i][1] = Math.max(dp[i-1][0]+1, dp[i-1][1])
+        }
+        else if(nums[i]-nums[i-1]<0){
+            dp[i][0] = Math.max(dp[i-1][1]+1, dp[i-1][0])
+        }
+        else{
+            dp[i][0] = dp[i-1][0]
+            dp[i][1] = dp[i-1][1]
+        }
+    }
+
+    return Math.max(dp[len-1][0], dp[len-1][1])+1
+};
+//runtime:72 ms
+//memory:32.8 MB

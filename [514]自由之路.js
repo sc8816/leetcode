@@ -46,6 +46,9 @@
  * @return {number}
  */
 var findRotateSteps = function(ring, key) {
+    //dp[i][j]表示转动到第i个字符时，转盘处于j位置（i==j）转动次数最小
+    //在上一步能够转动到达位置k时
+    //dp[i][j] = dp[i-1][k] + Math.min(Math.abs(j-k), N - Math.abs(j-k))
     let dp = Array.from(new Array(key.length), () => new Array(ring.length).fill(Infinity))
     let N = ring.length
     let res = Infinity

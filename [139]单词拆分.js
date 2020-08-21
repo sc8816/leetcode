@@ -38,21 +38,38 @@
  */
 var wordBreak = function(s, wordDict) {
     //wordDict能否组成dp[i]表示前i个字符
-    let set = new Set(wordDict)
     let dp = []
-    for (let i = 0; i < s.length; i++) {
-        let str = s.substr(0, i + 1)
-        if (set.has(str)) {
+    let set = new Set(wordDict)
+    for(let i = 0; i<s.length; i++){
+        let str = s.substr(0, i+1)
+        if(set.has(str)){
             dp[i] = true
             continue
         }
-        for (let j = 0; j < i; j++) {
-            if (dp[j] && set.has(s.substr(j + 1, i - j))) {
+
+        for(let j = 0; j<i; j++){
+            if(dp[j] && set.has(s.substr(j+1, i-j))){
                 dp[i] = true
             }
         }
     }
-
-    return dp[s.length - 1]
+    // console.log(dp)
+    return dp[s.length-1]
+    // let set = new Set(wordDict)
+    // let dp = []
+    // for (let i = 0; i < s.length; i++) {
+    //     let str = s.substr(0, i + 1)
+    //     if (set.has(str)) {
+    //         dp[i] = true
+    //         continue
+    //     }
+    //     for (let j = 0; j < i; j++) {
+    //         if (dp[j] && set.has(s.substr(j + 1, i - j))) {
+    //             dp[i] = true
+    //         }
+    //     }
+    // }
+    //
+    // return dp[s.length - 1]
 }
 //leetcode submit region end(Prohibit modification and deletion)

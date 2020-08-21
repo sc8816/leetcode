@@ -1,0 +1,39 @@
+/**
+ * @param {number} k
+ * @param {number[]} prices
+ * @return {number}
+ */
+var maxProfit = function(k, prices) {
+      if(k>prices.length/2){
+            let dp=0;
+            for(let i=0;i<prices.length;i++){
+                if(prices[i+1]>prices[i]){
+                    dp=dp+prices[i+1]-prices[i];
+                }
+            }
+            return dp;
+     }
+    let dp = []
+    for(let i=0; i<=prices.length; i++){
+        dp[i] = new Array()
+        for(let j=0; j<=k; j++){
+            dp[i][j] = new Array
+            for(let m=0; m<2; m++){
+                if(i==0 && m==1) dp[i][j][m] = -prices[0] 
+                else dp[i][j][m] = 0
+            }
+        }
+    }
+    let max = 0
+    for(let i=1; i<prices.length; i++){
+        for(let j=1; j<=k; j++){
+            dp[i][j][0] = Math.max(dp[i-1][j][0], dp[i-1][j][1]+prices[i])
+            dp[i][j][1]  = Math.max(dp[i-1][j][1], dp[i-1][j-1][0]-prices[i])
+            max = Math.max(dp[i][j][0], max)
+        }
+    }
+
+    return max
+};
+//runtime:104 ms
+//memory:53.3 MB

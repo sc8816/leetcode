@@ -25,7 +25,33 @@
  * @param {number[]} nums
  * @return {number[]}
  */
-var largestDivisibleSubset = function(nums) {
+var largestDivisibleSubset = function (nums) {
+    //dp[i]表示第i个数最大子集数
+    nums.sort((a, b) => a - b)
+    let n = nums.length
+    let dp = new Array(n + 1).fill(1)
+    let max = 1
+    let index = 0
+    let res = []
+    for (let i = 1; i < n; i++) {
+        for (let j = 0; j < i; j++) {
+            if (nums[i] % nums[j] == 0) {
+                dp[i] = Math.max(dp[i], dp[j] + 1)
+            }
+            if (dp[i] > max) {
+                index = i
+                max = dp[i]
+            }
+        }
+    }
+    for (let i = index; i >= 0; i--) {
+        if (nums[index] % nums[i] == 0 && dp[i] == max) {
+            res.unshift(nums[i])
+            index = i
+            max--
+        }
+    }
 
+    return res
 };
 //leetcode submit region end(Prohibit modification and deletion)
