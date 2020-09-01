@@ -1,0 +1,46 @@
+/**
+ * @param {string} s
+ * @return {number}
+ */
+var countSubstrings = function(s) {
+
+    //dp
+    // if(s.length==0) return 0
+    // if(s.length==1) return 1
+    // let dp = Array.from(new Array(s.length+1), ()=> new Array(s.length+1).fill(false))
+    // let res = s.length
+    // for(let i=0; i<s.length;i++) dp[i][i] = true
+    // for(let i=s.length-2;i>=0;i--){
+    //     for(let j=i+1; j<s.length;j++){
+    //         if(s[i]==s[j]){
+    //             if(j-i==1) dp[i][j]=true //相邻两个数
+    //             else dp[i][j] = dp[i+1][j-1]
+    //         } else{
+    //            dp[i][j] = false
+    //         }
+    //         if(dp[i][j]) res++
+    //     }
+    // }
+
+    // return res
+
+    //中心扩展
+    let N = s.length
+    let res = 0
+    let expand = (left, right)=>{
+         while (left >= 0 && right < N && s[left] == s[right]){
+             res++
+             left--
+             right++
+         }
+    }
+    for(let i=0; i<=2*N-1; i++){
+        let left = i>>1
+        let right = left+i%2
+        expand(left, right)
+    }
+    return res
+    
+};
+//runtime:76 ms
+//memory:35.9 MB

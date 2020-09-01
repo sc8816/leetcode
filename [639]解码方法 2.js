@@ -49,8 +49,8 @@ var numDecodings = function(s) {
     dp[1] = s[0] == '0' ? 0 : s[0] == '*' ? 9 : 1
     for (let i = 1; i < N; i++) {
         if (s[i] == '*') {
-            dp[i + 1] = 9 * dp[i]
-            if (s[i - 1] == '1') {
+            dp[i + 1] = 9 * dp[i] // 第i位单独组成一个
+            if (s[i - 1] == '1') { //和前面的组成两位数
                 dp[i + 1] = (dp[i + 1] + 9 * dp[i - 1]) % M
             } else if (s[i - 1] == '2') {
                 dp[i + 1] = (dp[i + 1] + 6 * dp[i - 1]) % M
@@ -63,7 +63,7 @@ var numDecodings = function(s) {
                 dp[i + 1] = (dp[i + 1] + dp[i - 1]) % M
             } else if (s[i - 1] == '2' && s[i] <= 6) {
                 dp[i + 1] = (dp[i + 1] + dp[i - 1]) % M
-            } else if (s[i - 1] == '*') {
+            } else if (s[i - 1] == '*') { //小于6 可以选择1、2，大于6 只能选择1
                 dp[i + 1] = (dp[i + 1] + (s[i] <= 6 ? 2 : 1) * dp[i - 1]) % M
             }
         }

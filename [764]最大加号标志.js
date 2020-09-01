@@ -104,7 +104,10 @@ var orderOfLargestPlusSign = function(N, mines) {
     let dp = new Array()
     let res = 0
     /*
-    * dp[i][j][0] =
+    * dp[i][j][0] 表示从左延展
+    * dp[i][j][1]表示从上延展
+    * dp[i][j][2] 表示从下延展
+    * dp[i][j][3]表示从右延展
      */
 
     for (let [x, y] of mines) {

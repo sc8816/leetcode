@@ -53,32 +53,35 @@
  * @param {number} K
  * @return {number}
  */
-var findCheapestPrice = function(n, flights, src, dst, K) {
+var findCheapestPrice = function (n, flights, src, dst, k) {
     // dp[i][k] 表示到达i转k次最便宜的价格
     // dp[i][k] = min(dp[i][0]...dp[i][k])
     let dp = []
     for (let i = 0; i <= n; i++) {
-        dp[i] = []
-        for (let j = 0; j <= K; j++) {
-            if (i == src) dp[i][j] = 0
-            else dp[i][j] = Infinity
-        }
-    }
-
-    for (let flight of flights) {
-        if (flight[0] == src) {
-            dp[flight[1]][0] = flight[2]
-        }
-    }
-
-    for (let k = 1; k <= K; k++) {
-        for (let [s, d, p] of flights) {
-            if (dp[s][k - 1] != Infinity) { //判断前面是否存在能到达s位置的点
-                dp[d][k] = Math.min(dp[d][k], dp[s][k - 1] + p)
+        dp[i] = new Array()
+        for (let j = 0; j <= k; j++) {
+            if (i == src) {
+                dp[i][j] = 0
+            } else {
+                dp[i][j] = Infinity
             }
         }
     }
-    // console.log(dp)
-    return dp[dst][K] == Infinity ? -1 : dp[dst][K]
+
+    for (let [s, d, c] of flights) {
+        if (s == src) {
+            dp[d][0] = c
+        }
+    }
+
+    for (let i = 1; i <= k; i++) {
+        for (let [s, d, c] of flights) {
+            if (dp[s][i - 1] != Infinity) {
+                dp[d][i] = Math.min(dp[d][i], dp[s][i-1] + c)
+            }
+        }
+    }
+
+    return dp[dst][k]!=Infinity ? dp[dst][k] : -1
 }
 //leetcode submit region end(Prohibit modification and deletion)

@@ -1,0 +1,31 @@
+var findPaths = function(m, n, N, i, j) {
+    const helper = (i, j, N) => {
+        // N 次用完了，此时不能再走了就返回 0
+        if (N < 0) {
+            return 0
+        }
+        // 出界条件满足了，说明有一条出界路径，就返回 1
+        if (i < 0 || i >= m || j < 0 || j >= n) {
+            return 1
+        }
+        // 记忆化搜索（如果重复访问了那就用之前的值）
+        const key = `${i}-${j}-${N}`
+        if (visited.has(key)) {
+            return visited.get(key)
+        }
+        let res = 0
+        // 找上、下、左、右 四个方向
+        for (let k = 0; k < 4; k++) {
+            res = (res + helper(i + direction[k][0], j + direction[k][1], N -1)) % mod
+        }
+        // 将当前的值缓存下来
+        visited.set(key, res)
+        return res
+    }
+    const mod = Math.pow(10, 9) + 7
+    const direction = [[1, 0], [-1, 0], [0, -1], [0, 1]]
+    const visited = new Map()
+    return helper(i, j, N)
+};
+//runtime:116 ms
+//memory:45.2 MB

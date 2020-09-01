@@ -33,6 +33,7 @@ var maxSumOfThreeSubarrays = function(nums, k) {
     //dp[i][j] 表示前i个元素构成第j个数组的最大和
     //选第i个， 不选第i个
     //dp[i][j] = Math.max(dp[i-1][j], dp[i-k][j-1] + sum(i-k+1, i))
+    //sum[i]表示（i-k ， i）前缀和
     if (k < 1 || 3 * k > nums.length) return []
     let N = nums.length
     let limit = 3

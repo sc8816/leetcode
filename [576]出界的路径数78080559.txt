@@ -1,0 +1,33 @@
+/**
+ * @param {number} m
+ * @param {number} n
+ * @param {number} N
+ * @param {number} i
+ * @param {number} j
+ * @return {number}
+ */
+var findPaths = function(m, n, N, i, j) {
+    const mod = Math.pow(10, 9) + 7
+    let memo = new Map()
+    let dfs = (i, j, k)=>{
+        if(k<0) return 0
+        if (i < 0 || i >= m || j < 0 || j >= n) {
+            return 1
+        }
+        let key = `${i}-${j}-${k}`
+        if(memo.has(key)) return memo.get(key)
+
+        let res = 0
+        res += dfs(i - 1, j, k - 1)
+        res += dfs(i + 1, j, k - 1)
+        res += dfs(i, j - 1, k - 1)
+        res += dfs(i, j + 1, k - 1)
+        res%=mod
+        memo.set(key, res)
+        return res
+    }
+
+    return dfs(i, j, N)
+};
+//runtime:116 ms
+//memory:45.1 MB

@@ -23,33 +23,56 @@
  * @param {number} k
  * @return {boolean}
  */
-var canPartitionKSubsets = function(nums, k) {
+var canPartitionKSubsets = function (nums, k) {
     let sum = 0, max = 0
+    let n = nums.length
     for (let num of nums) {
         sum += num
         max = Math.max(max, num)
     }
-    if (sum % k !== 0 || max > sum / k) return false
-    let vis = new Array(nums.length).fill(false)
-    let dfs = (k, cur, target, vis, nums, index) => {
-        //截止条件
+    let vis = new Array(n).fill(false)
+    if (sum % k != 0 || max > sum / k) return false
+    let target = sum / k
+    let dfs = (k, cur, target, vis, index) => {
         if (k == 0) return true
-        //当前已经凑好进入下一个
-        if (cur == target) return dfs(k - 1, 0, target, vis, nums, 0)
-        //候选节点
-        for (let i = index; i < nums.length; i++) {
-            if (!vis[i] && cur + nums[i] <= target) {
+        if (cur == target) return dfs(k - 1, 0, target, vis, 0)
+        for (let i = index; i < n; i++) {
+            if(!vis[i] && nums[i]+cur<=target){
                 vis[i] = true
-                if(dfs(k, cur+nums[i], target, vis, nums, i+1)){
-                    return true
-                }
+                if(dfs(k, cur+nums[i], target, vis, i)) return true
                 vis[i] = false
             }
         }
-
         return false
     }
 
-    return dfs(k, 0, sum / k, vis, nums, 0)
+    return dfs(k, 0, target, vis, 0)
+    // let sum = 0, max = 0
+    // for (let num of nums) {
+    //     sum += num
+    //     max = Math.max(max, num)
+    // }
+    // if (sum % k !== 0 || max > sum / k) return false
+    // let vis = new Array(nums.length).fill(false)
+    // let dfs = (k, cur, target, vis, nums, index) => {
+    //     //截止条件
+    //     if (k == 0) return true
+    //     //当前已经凑好进入下一个
+    //     if (cur == target) return dfs(k - 1, 0, target, vis, nums, 0)
+    //     //候选节点
+    //     for (let i = index; i < nums.length; i++) {
+    //         if (!vis[i] && cur + nums[i] <= target) {
+    //             vis[i] = true
+    //             if(dfs(k, cur+nums[i], target, vis, nums, i+1)){
+    //                 return true
+    //             }
+    //             vis[i] = false
+    //         }
+    //     }
+    //
+    //     return false
+    // }
+    //
+    // return dfs(k, 0, sum / k, vis, nums, 0)
 }
 //leetcode submit region end(Prohibit modification and deletion)

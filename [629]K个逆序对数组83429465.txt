@@ -1,0 +1,40 @@
+/**
+ * @param {number} n
+ * @param {number} k
+ * @return {number}
+ */
+var kInversePairs = function(n, k) {
+    //dp[i][j] 表示恰好有1-i组成j个逆序对的数组个数
+    //dp[n][k] = dp[n - 1][k] + dp[n - 1][k-1] + ... + dp[n - 1][k - n + 1]
+    //dp[n][k+1] = dp[n - 1][k+1] + dp[n - 1][k] + ... + dp[n - 1][k + 1 - n + 1]
+    //dp[n][k+1] = dp[n][k] + dp[n-1][k+1] - dp[n-1][k-n]
+    //dp[n][k] = dp[n][k-1] + dp[n-1][k] -dp[n-1][k-n-1]
+    let mod = Math.pow(10, 9) + 7
+    let dp = Array.from(new Array(n+1), ()=>new Array(k+1).fill(0))
+    // dp[0][0] = 1
+    // for(let i=0; i<=n; i++){
+    //    for(let j=0; j<i; ++j){ //插入位置只能在前面i个数中间插
+    //         for(let m=0; m<=k; m++){
+    //             if(m-j>=0){
+    //                dp[i][m] = (dp[i][m]+dp[i-1][m-j])%mod;
+    //              }
+    //        }
+    //   }
+    // }
+
+    // return dp[n][k]
+    dp[1][0] = 1
+    for(let i=2; i<=n; i++){
+        dp[i][0] = 1
+        for(let j=1; j<=k;j++){
+            if(j>=i){
+                dp[i][j] = (dp[i][j-1] + dp[i-1][j] - dp[i-1][j-i]+mod)%mod
+            }else{
+                dp[i][j] = (dp[i][j-1] + dp[i-1][j])%mod
+            }
+        }
+    }
+    return dp[n][k]
+};
+//runtime:144 ms
+//memory:53.9 MB

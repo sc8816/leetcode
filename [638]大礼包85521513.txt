@@ -1,0 +1,41 @@
+/**
+ * @param {number[]} price
+ * @param {number[][]} special
+ * @param {number[]} needs
+ * @return {number}
+ */
+var shoppingOffers = function(price, special, needs) {
+    //计算单个的购买需要花费
+    let calcPrice = (prices, needs) => {
+        let price = 0
+        for (let i = 0; i < prices.length; i++) {
+            price += needs[i] * prices[i]
+        }
+        return price
+    }
+
+    let dfs = (price, special, needs) => {
+        let res = calcPrice(price, needs)
+        let remain = []
+        for (let s of special) {
+            let i = 0
+            for (; i < needs.length; i++) {
+                let dif = needs[i] - s[i]
+                //判断当前礼包是否可选
+                if (dif < 0) break
+                remain[i] = dif
+            }
+            //走到最后一步说明该礼包可选，选择完该礼包后，还差多少重新走dfs
+            if (i === needs.length) {
+                res = Math.min(res, s[i] + dfs(price, special, remain))
+            }
+        }
+
+        return res
+    }
+
+    return dfs(price, special, needs)
+}
+
+//runtime:76 ms
+//memory:36.6 MB
