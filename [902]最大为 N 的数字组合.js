@@ -49,7 +49,7 @@ var atMostNGivenDigitSet = function(D, N) {
     let k = s.length
     //dp[i]表示小于等于N中k-i位数的合法数字个数
     let dp = Array(k + 1).fill(0)
-    dp[k] = 1
+    dp[k] = 1 //组成0位表示什么都不选 1种
     //循环每一位，比较当前位和D中数字大小
     //如果当前位值大于D中的数字，后面的每一位都有D.length种选择即 Math.pow(D.length, k - i - 1)
     //如果当前值等于D中数字，只比较后面的数字即dp[i+1]
@@ -64,7 +64,7 @@ var atMostNGivenDigitSet = function(D, N) {
             }
         }
     }
-
+    //位数小于k的，所有数字都可以仍以选择
     for (let i = 1; i < k; i++) {
         dp[0] += Math.pow(D.length, i)
     }

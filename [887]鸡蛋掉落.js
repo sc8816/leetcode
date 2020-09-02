@@ -94,7 +94,7 @@ var superEggDrop = function(K, N) {
     //     }
     // }
     /*
-    dp[i][j]表示j个鸡蛋尝试i次能确定的最高楼层
+    dp[i][j]表示j个鸡蛋尝试i次能确定临界点F的最高楼层
      */
     // for (let i = 1; i <= N; i++) {
     //     for (let j = 1; j <= K; j++) {

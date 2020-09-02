@@ -51,7 +51,7 @@
  * @return {number}
  */
 var profitableSchemes = function(G, P, group, profit) {
-    //dp[i][j][k] 表示前i中犯罪中 j个人产生利润最少为k的 计划数
+    //dp[i][j][k] 表示前i个收益 j个人产生利润最少为k的 计划数
     // let MOD = Math.pow(10, 9) + 7
     // let N = profit.length
     // let dp = []
