@@ -54,7 +54,7 @@
  * @param {number} K
  * @return {number}
  */
-var mergeStones = function(stones, K) {
+var mergeStones = function (stones, K) {
     //dp[i][j][k]表示区间i-j形成k堆最小的移动成本
     //dp[0][N-1][1]为所求
     //dp[i][j][1] = sum(i, j) + dp[i][j][K] 要把i-j合成一堆必须最后是K堆 再加上它们之间的和
@@ -82,17 +82,18 @@ var mergeStones = function(stones, K) {
         return i == 0 ? preSum[j] : preSum[j] - preSum[i - 1]
     }
 
-    for (let len = 1; len < N; len++) {
-        for (let i = 0; i < N - len; i++) {
-            let j = i + len
+    for (let len = 1; len <= N; len++) {
+        for (let i = 0; i < N - len + 1; i++) {
+            let j = i + len - 1
             for (let k = 2; k <= K; k++) {
                 for (let m = i; m < j; m = m + K - 1) {
                     dp[i][j][k] = Math.min(dp[i][j][k], dp[i][m][1] + dp[m + 1][j][k - 1])
+                    dp[i][j][1] = dp[i][j][k] + getSum(i, j)
                 }
-                dp[i][j][1] = dp[i][j][k] + getSum(i, j)
             }
         }
     }
+
     return dp[0][N - 1][1]
 }
 //leetcode submit region end(Prohibit modification and deletion)

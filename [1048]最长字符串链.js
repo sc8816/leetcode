@@ -36,6 +36,7 @@
  * @return {number}
  */
 var longestStrChain = function(words) {
+    
     let isPre = (s, t) => {
         let a = s.length, b = t.length
         if (a + 1 != b) return false
@@ -53,7 +54,7 @@ var longestStrChain = function(words) {
         let a = words[i]
         for (let j = i + 1; j < words.length; j++) {
             let b = words[j]
-            console.log(a, b)
+            // console.log(a, b)
             if (isPre(a, b)) {
                 dp[j] = Math.max(dp[j], dp[i] + 1)
                 max = Math.max(dp[j], max)

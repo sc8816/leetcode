@@ -45,6 +45,8 @@
  * @return {number}
  */
 var maximumSum = function(arr) {
+    //dp1[i]表示不删除元素，以arr【i】结尾最大的子序和
+    //dp2[i]表示删除元素，以arr【i】结尾的最大子序和
     let dp1 = [arr[0]]
     let dp2 = [-Infinity]
     let max = arr[0]

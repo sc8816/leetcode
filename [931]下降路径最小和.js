@@ -36,7 +36,18 @@
  * @param {number[][]} A
  * @return {number}
  */
-var minFallingPathSum = function(A) {
-    
+var minFallingPathSum = function (A) {
+    let n = A.length
+    let dp = Array.from(new Array(n), () => new Array(n).fill(Infinity))
+
+    for (let i = 1; i < n; i++) {
+        for (let j = 0; j < n; j++) {
+            if (j == 0) A[i][j] += Math.min(A[i - 1][j], A[i - 1][j + 1])
+            else if (j==n-1) A[i][j] += Math.min(A[i-1][j], A[i-1][j-1])
+            else A[i][j] += Math.min(A[i-1][j], A[i-1][j-1], A[i-1][j+1])
+        }
+    }
+
+    return Math.min(...A[n-1])
 };
 //leetcode submit region end(Prohibit modification and deletion)

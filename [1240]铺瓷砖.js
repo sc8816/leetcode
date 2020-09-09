@@ -51,32 +51,59 @@
  * @param {number} m
  * @return {number}
  */
-var tilingRectangle = function(n, m) {
-    let vis = new Map()
-    let dfs = (n, m) => {
-        if (m == 0 || n == 0) return 0
-        if (n == m) return 1
-        if (n > m) [m, n] = [n, m]
-        // console.log(m,n)
-        let key = `${m}-${n}`
-        if (vis.has(key)) return vis.get(key)
-        let res = n * m
-        for (let a = 1; a < n; a++) {
-            for (let b = 1; b < m; b++) {
-                for (let c = 1; c < n; c++) {
-                    for (let d = 1; d < m; d++) {
-                        if ((a - n + c >= 0) && (d - m + b >= 0)) {
-                            res = Math.min(res, dfs(a, m - d) + dfs(b, n - a) + dfs(c, m - b) + dfs(n - c, d) + dfs(a - n + c, d - m + b))
-                        }
-                    }
+// var tilingRectangle = function (n, m) {
+//     let vis = new Map()
+//     let dfs = (n, m) => {
+//         if (m == 0 || n == 0) return 0
+//         if (n == m) return 1
+//         if (n > m) [m, n] = [n, m]
+//         // console.log(m,n)
+//         let key = `${m}-${n}`
+//         if (vis.has(key)) return vis.get(key)
+//         let res = n * m
+//         for (let a = 1; a < n; a++) {
+//             for (let b = 1; b < m; b++) {
+//                 for (let c = 1; c < n; c++) {
+//                     for (let d = 1; d < m; d++) {
+//                         if ((a - n + c >= 0) && (d - m + b >= 0)) {
+//                             res = Math.min(res, dfs(a, m - d) + dfs(b, n - a) + dfs(c, m - b) + dfs(n - c, d) + dfs(a - n + c, d - m + b))
+//                         }
+//                     }
+//                 }
+//             }
+//         }
+//         res = Math.min(res, dfs(n, m - n) + 1)
+//         vis.set(key, res)
+//         return res
+//     }
+//
+//     return dfs(n, m)
+// }
+var tilingRectangle = function (n, m) {
+    //dp[i][j]表示宽为i 高为j，最少需要多少块瓷砖
+    let dp = Array.from(new Array(n + 1), () => new Array(m + 1).fill(Infinity))
+
+    for (let i = 1; i <= n; i++) {
+        for (let j = 1; j <= m; j++) {
+            if (i == j) {
+                dp[i][j] = 1
+                continue
+            }
+            for (let k = 1; k < i; k++) { //横切
+                dp[i][j] = Math.min(dp[i][j], dp[k][j] + dp[i - k][j])
+            }
+            for (let k = 1; k < j; k++) { //竖切
+                dp[i][j] = Math.min(dp[i][j], dp[i][k] + dp[i][j - k])
+            }
+            for (let k = 1; k < Math.min(i, j); k++) { //横竖切
+                for (let m = 1; m <= k; m++) {
+                    if (k - m <= 0 || i - k <= 0 || j - k <= 0 || i - k - m <= 0 || j - k + m <= 0) continue
+                    dp[i][j] = Math.min(dp[i][j], 2 + dp[i - k][k - m] + dp[i - k - m][j - k + m] + dp[k + m][j - k])
                 }
             }
         }
-        res = Math.min(res, dfs(n, m - n) + 1)
-        vis.set(key, res)
-        return res
     }
 
-    return dfs(n, m)
+    return dp[n][m]
 }
 //leetcode submit region end(Prohibit modification and deletion)

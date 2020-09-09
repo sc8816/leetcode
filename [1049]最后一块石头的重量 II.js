@@ -42,14 +42,14 @@ var lastStoneWeightII = function(stones) {
     //0-1背包转换
     //两两进行比较相当于把所有石头分成两份，找出他们最小的差
     let sum = stones.reduce((a, b) => a + b)
-    let N = (sum>>1) + 1
-    let dp = new Array(N).fill(0)
+    let N = (sum>>1)
+    let dp = new Array(N+1).fill(0)
     for (let s of stones) {
-        for (let j = N- 1; j >= s; j--) {
+        for (let j = N; j >= s; j--) {
             dp[j] = Math.max(dp[j], dp[j - s] + s)
         }
     }
 
-    return sum - 2*dp[N-1]
+    return sum - 2*dp[N]
 }
 //leetcode submit region end(Prohibit modification and deletion)

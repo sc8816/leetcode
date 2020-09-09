@@ -41,7 +41,25 @@
  * @param {number[]} nums
  * @return {number}
  */
-var maxSumDivThree = function(nums) {
-    
+var maxSumDivThree = function (nums) {
+    let dp = [0, -Infinity, -Infinity]
+    for (let num of nums) {
+        let [p1, p2, p3] = dp
+        if (num % 3 == 0) {
+            dp[0] += num
+            dp[1] += num
+            dp[2] += num
+        } else if (num % 3 == 1) {
+            dp[0] = Math.max(p1, p3 + num)
+            dp[1] = Math.max(p2, p1 + num)
+            dp[2] = Math.max(p3, p2 + num)
+        } else if (num % 3 == 2) {
+            dp[0] = Math.max(p1, p2 + num)
+            dp[1] = Math.max(p2, p3 + num)
+            dp[2] = Math.max(p3, p1 + num)
+        }
+    }
+
+    return dp[0]
 };
 //leetcode submit region end(Prohibit modification and deletion)
