@@ -64,7 +64,39 @@
  * @param {number} d
  * @return {number}
  */
-var minDifficulty = function(jobDifficulty, d) {
+// var minDifficulty = function (jobDifficulty, d) {
+//     let getMax = (i, j) => {
+//         let max = -1
+//         while (i <= j) {
+//             max = Math.max(max, jobDifficulty[i])
+//             i++
+//         }
+//         return max
+//     }
+//     let N = jobDifficulty.length
+//     if (N < d) return -1
+//     let dp = Array.from(new Array(N + 1), () => new Array(d + 1).fill(Infinity))
+//     // dp[0][0] = 0
+//     let preSum = 0
+//     for (let i = 1; i <= N; i++) {
+//         preSum += jobDifficulty[i - 1]
+//         for (let j = 1; j <= Math.min(i, d); j++) {
+//             if (j == 1) dp[i][j] = getMax(0, i - 1)
+//             if (j == i) dp[i][j] = preSum
+//             else {
+//                 for (let k = 1; k < i; k++) {
+//                     if (dp[k][j - 1] != Infinity) {
+//                         dp[i][j] = Math.min(dp[i][j], dp[k][j - 1] + getMax(k, i - 1))
+//                     }
+//                 }
+//             }
+//         }
+//     }
+//     // console.log(jobDifficulty, dp)
+//     return dp[N][d] == Infinity ? -1 : dp[N][d]
+// }
+
+var minDifficulty = function (jobDifficulty, d) {
     let getMax = (i, j) => {
         let max = -1
         while (i <= j) {
@@ -73,16 +105,17 @@ var minDifficulty = function(jobDifficulty, d) {
         }
         return max
     }
-    let N = jobDifficulty.length
-    if (N < d) return -1
-    let dp = Array.from(new Array(N + 1), () => new Array(d + 1).fill(Infinity))
-    // dp[0][0] = 0
+
+    let n = jobDifficulty.length
+    if (n < d) return -1
+    let dp = Array.from(new Array(n + 1), () => new Array(d + 1).fill(Infinity))
     let preSum = 0
-    for (let i = 1; i <= N; i++) {
+
+    for (let i = 1; i <= n; i++) {
         preSum += jobDifficulty[i - 1]
         for (let j = 1; j <= Math.min(i, d); j++) {
             if (j == 1) dp[i][j] = getMax(0, i - 1)
-            if (j == i) dp[i][j] = preSum
+            else if (j == i) dp[i][j] = preSum
             else {
                 for (let k = 1; k < i; k++) {
                     if (dp[k][j - 1] != Infinity) {
@@ -92,7 +125,6 @@ var minDifficulty = function(jobDifficulty, d) {
             }
         }
     }
-    // console.log(jobDifficulty, dp)
-    return dp[N][d] == Infinity ? -1 : dp[N][d]
+    return dp[n][d] == Infinity ? -1 : dp[n][d]
 }
 //leetcode submit region end(Prohibit modification and deletion)

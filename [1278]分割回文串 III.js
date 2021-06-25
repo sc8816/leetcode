@@ -60,6 +60,7 @@ var palindromePartition = function(s, k) {
         }
         return count
     }
+
     let n = s.length
     let dp = Array.from(new Array(n + 1), () => new Array(k + 1).fill(Infinity))
     dp[0][0] = 0

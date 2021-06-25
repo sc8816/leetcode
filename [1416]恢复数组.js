@@ -76,7 +76,7 @@ var numberOfArrays = function(s, k) {
         for (let j = i; j > 0 && i - j < 10; j--) {
             let numStr = s.substring(j - 1, i)
             if (numStr[0] == '0') continue
-            if (numStr > k) break
+            if (numStr > k) break //说明当前这个数不合理，dp[j-1]所有结果不合理
             dp[i] = (dp[i] + dp[j - 1]) % Mod
         }
     }

@@ -57,8 +57,9 @@
  * @return {number}
  */
 var numOfWays = function(n) {
+    //下一行是ABA，ABC的情况
     //ABA:BAB、BAC、BCB、CAC、CAB
-    //ABA：BAB、BCB、BCA、CAB
+    //ABC：BAB、BCB、BCA、CAB
     if (n == 0) return 0
     if (n == 1) return 12
     let MOD = Math.pow(10, 9) + 7

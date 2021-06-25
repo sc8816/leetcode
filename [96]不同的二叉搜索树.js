@@ -25,13 +25,11 @@ var numTrees = function(n) {
     dp[0] = 1
     dp[1] = 1
     // dp[i] 表示以i为根节点能够组成的二叉树的个数
-    //以i节点为根节点则 f(i) = f(i-1)* f(n-i)
-    //g(i) = f(0) + ...+ f(n)
-    // dp[i] += dp[j - 1] * dp[i - j - 1]
-
+    //以i节点为根节点则 dp(i) = dp(i-1)* dp(n-i)
+    //那么所有的数量就是分别以 1.。。n所有数为根节点的二叉树个数之和
     for (let i = 2; i <= n; i++) {
-        for (let j = 0; j < i; j++) {
-            dp[i] += dp[j] * dp[i - j - 1]
+        for (let j = 1; j <= i; j++) {
+            dp[i] += dp[j-1] * dp[i - j]
         }
     }
 

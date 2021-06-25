@@ -73,6 +73,7 @@ var largestNumber = function(cost, target) {
     let dp = new Array(target + 1).fill(-Infinity)
     dp[0] = 0
     let res = ''
+    // dp[i]表示装满i能存的最大位数
     for (let i = 9; i >= 1; i--) {
         for (let j = cost[i - 1]; j <= target; j++) {
             dp[j] = Math.max(dp[j - cost[i - 1]] + 1, dp[j])
@@ -89,6 +90,5 @@ var largestNumber = function(cost, target) {
         }
     }
     return res
-
 }
 //leetcode submit region end(Prohibit modification and deletion)

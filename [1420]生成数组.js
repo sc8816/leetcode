@@ -68,7 +68,7 @@
  * @return {number}
  */
 var numOfArrays = function(N, M, K) {
-    //dp[i][j][k]表示数组长度为i，搜寻次数为j，最大值为k的数组个数
+    //dp[i][j][k]表示数组长度为i，最大值为j，搜寻值为k的数组个数
     /*
     1.最后一个是最大值 dp[i][j][k] = dp[i-1][j-1][q] (q=0,1,...k−1)
     2.最后不是最大值 dp[i][j][k] = dp[i-1][j][k] * (k+1)

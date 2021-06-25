@@ -80,8 +80,8 @@ var connect = function(root) {
             let left = root.left, right = root.right
             while (left) {
                 left.next = right
-                left = root.left.right
-                right = root.right.left
+                left = left.right
+                right = right.left
             }
             dfs(root.left)
             dfs(root.right)

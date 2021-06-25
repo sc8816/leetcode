@@ -51,25 +51,45 @@
  * @param {number} arrLen
  * @return {number}
  */
-var numWays = function(steps, arrLen) {
-    arrLen = Math.min(arrLen, steps + 1) //由于最多只能走到step 所以我们需要判断当前能达到的最大位置
+// var numWays = function (steps, arrLen) {
+//     arrLen = Math.min(arrLen, steps + 1) //由于最多只能走到step 所以我们需要判断当前能达到的最大位置
+//     let dp = Array.from(new Array(steps + 1), () => new Array(arrLen).fill(0))
+//     // dp[i][j]移动i次位置在j的次数
+//     //dp[i][j] = dp[i-1][j-1] + dp[i-1][j+1] + dp[i-1][j]
+//     dp[0][0] = 1
+//     let MOD = Math.pow(10, 9) + 7
+//     for (let j = 1; j < arrLen; j++) dp[0][j] = 0
+//     for (let i = 1; i <= steps; i++) {
+//         for (let j = 0; j < arrLen; j++) {
+//             if (j > i) continue
+//             for (let k = -1; k <= 1; k++) {
+//                 if (j - k < arrLen && j - k >= 0) {
+//                     dp[i][j] = (dp[i][j] + dp[i - 1][j - k]) % MOD
+//                 }
+//             }
+//         }
+//     }
+//
+//     return dp[steps][0] % MOD
+// }
+
+var numWays = function (steps, arrLen) {
+    arrLen = Math.min(steps, arrLen)
     let dp = Array.from(new Array(steps + 1), () => new Array(arrLen).fill(0))
-    // dp[i][j]移动i次位置在j的次数
-    //dp[i][j] = dp[i-1][j-1] + dp[i-1][j+1] + dp[i-1][j]
-    dp[0][0] = 1
-    let MOD = Math.pow(10, 9) + 7
     for (let j = 1; j < arrLen; j++) dp[0][j] = 0
+    dp[0][0] = 1
+    let mod = Math.pow(10, 9) + 7
     for (let i = 1; i <= steps; i++) {
         for (let j = 0; j < arrLen; j++) {
             if (j > i) continue
             for (let k = -1; k <= 1; k++) {
                 if (j - k < arrLen && j - k >= 0) {
-                    dp[i][j] = (dp[i][j] + dp[i - 1][j - k]) % MOD
+                    dp[i][j] = (dp[i][j] + dp[i - 1][j - k]) % mod
                 }
             }
         }
     }
 
-    return dp[steps][0] % MOD
+    return dp[steps][0] % mod
 }
 //leetcode submit region end(Prohibit modification and deletion)

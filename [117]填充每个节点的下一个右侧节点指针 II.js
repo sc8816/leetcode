@@ -61,7 +61,7 @@
  * @param {Node} root
  * @return {Node}
  */
-var connect = function(root) {
+var connect = function (root) {
     //思路一递归， 判断当前是否存在左右节点，每次我们只需要查找他的下一个节点即可
     //由于下一个节点肯定是会和父节点的next有关
     let getNextNode = (root) => {
@@ -91,19 +91,19 @@ var connect = function(root) {
     //层次遍历
     let bfs = (root) => {
         if (root == null) return
-        let stack = [root]
-        while (stack.length) {
-            let temp = []
+        let quenue = [root]
+        while (quenue.length) {
             let pre = null
             let cur = null
-            for (let i = 0; i < stack.length; i++) {
-                cur = stack[i]
-                if(pre) pre.next = cur
+            let temp = []
+            for (let i = 0; i < quenue.length; i++) {
+                cur = quenue[i]
+                if (pre) pre.next = cur
                 cur.left && temp.push(cur.left)
                 cur.right && temp.push(cur.right)
                 pre = cur
             }
-            stack = temp
+            quenue = temp
         }
     }
 }
